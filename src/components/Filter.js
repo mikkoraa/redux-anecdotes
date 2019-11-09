@@ -1,10 +1,12 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { filterChange } from '../reducers/filterReducer'
 
 const Filter = (props) => {
 
   const filterChanged = (event) => {
-    props.store.dispatch(filterChange(event.target.value))
+    props.filterChange(event.target.value)
+    //props.store.dispatch(filterChange(event.target.value))
   }
 
   const style = {
@@ -23,4 +25,5 @@ const Filter = (props) => {
   )
 }
 
-export default Filter
+const ConnectedNotes = connect(null, { filterChange })(Filter)
+export default ConnectedNotes
