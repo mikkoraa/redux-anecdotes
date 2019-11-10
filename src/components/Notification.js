@@ -1,7 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
+import { clearNotification } from "../reducers/notificationReducer"
 
 const Notification = ( props ) => {
+	useEffect(() => {
+		setTimeout(() => {
+			props.clearNotification()
+		}, props.timeout)
+	}, [props])
+
   let message = ''
   if (props && props.notification) {
     message = props.notification;
@@ -22,17 +29,14 @@ const Notification = ( props ) => {
   )
 }
 
-const notificationToShow = ({ notification}) => {
-    return notification.content
-}
-
 const mapStateToProps = (state) => {
   return {
-    notification: notificationToShow(state), 
+    notification: state.notification.content, 
+    timeout: state.notification.timeout,
   }
 }
 
 const ConnectedNotes = connect(  
   mapStateToProps,
-  null)(Notification)
+  { clearNotification })(Notification)
 export default ConnectedNotes

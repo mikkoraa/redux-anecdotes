@@ -1,17 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { createAnecdote } from '../reducers/anecdoteReducer'
-import { setNotification } from '../reducers/notificationReducer'
+import { setNotification, clearNotification } from '../reducers/notificationReducer'
 
 const AnecdoteForm = (props) => {
-  const addAnecdote = (event) => {
+  const addAnecdote = async (event) => {
     event.preventDefault()
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
     props.createAnecdote(content)
-    props.setNotification(content)
+    props.setNotification(content + " added!", 2000)
     setTimeout(() => {
-      props.setNotification('')
+      props.clearNotification()
     }, 2000)
   }
 
@@ -23,7 +23,6 @@ const AnecdoteForm = (props) => {
   )
 }
 
-const ConnectedNotes = connect(
-  null,
-  { createAnecdote, setNotification })(AnecdoteForm)
-export default ConnectedNotes
+export default connect(
+  null, { createAnecdote, setNotification, clearNotification }
+)(AnecdoteForm)
